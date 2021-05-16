@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="topnav">
+
+        <!-- Centered link -->
+        <div class="topnav-centered">
+        </div>
+        
+        <!-- Left-aligned links (default) -->
+        <a *ngIf="!isLoggedIn" href="/login">Login</a>
+        <a *ngIf="isLoggedIn" (click)="logOut()">Logout</a>
+        <!-- Right-aligned links -->
+        <div class="topnav-right">
+        </div>
+        
+      </div>
+    <div fxLayout="column" style="display: flex; justify-content: center;">
+        <h1>Students</h1>
+        <ul class="students" style="padding-left: 50px;">
+             <li *ngFor="let student of students"> <!--[class.selected]="student === selectedstudent" (click)="onSelect(student)" -->
+                <div style="text-align: center">
+                    <div style="display: inline-block; margin:auto; border: black solid 1px; padding: 30px; border-radius: 10%; width: 400px;">
+                        <span class="title" fxLayout="row">Name: {{student.name}}</span>
+                        <span class="title" fxLayout="row">Last name: {{student.lastName}}</span>
+                        <button *ngIf="isLoggedIn" class="backButton" (click)="deleteButton(student.id)">delete</button>
+                        <button *ngIf="isLoggedIn" class="backButton" (click)="edit(student.id)">edit</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

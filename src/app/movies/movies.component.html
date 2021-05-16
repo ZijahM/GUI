@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="topnav">
+
+        <!-- Centered link -->
+        <div class="topnav-centered">
+        </div>
+        
+        <!-- Left-aligned links (default) -->
+        <a *ngIf="!isLoggedIn" href="/login">Login</a>
+        <a *ngIf="isLoggedIn" (click)="logOut()">Logout</a>
+        <!-- Right-aligned links -->
+        <div class="topnav-right">
+        </div>
+        
+      </div>
+    <div *ngIf="!selectedArticle" fxLayout="column" style="display: flex; justify-content: center;">
+        <h1>News</h1>
+        <div fxFlex="100" fxLayout="row">
+            <input type="text" (input)="inputFn($event.target.value)" class="input" value="{{searchTerm}}" placeholder="Search articles by headline...">
+        </div>
+        <ul class="articles" style="padding-left: 50px;">
+            <li *ngFor="let article of articles" [class.selected]="article === selectedArticle" (click)="onSelect(article)">
+                <div style="text-align: center">
+                    <div fxLayout="row" style="text-align: center;">
+                        <img class="articlePoster" height="400px" width="500px" style="display:block; margin:auto;"
+                            src="{{article.img}}" alt="thumbnail">
+                    </div>
+                    <div style="display: inline-block; margin:auto">
+                        <span class="title" fxLayout="row">{{article.naslov}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="!selectedArticle && isLoggedIn" fxLayout="column" style="display: flex; justify-content: center;">
+        <h1>ADMIN DASHBOARD</h1>
+        <button class="backButton" (click)="showAdd()">add New</button>
+        <div *ngIf="showAddForm">
+            <button class="backButton" (click)="showAdd()">close</button>
+            <input type="text"  class="input" [(ngModel)]="headline" placeholder="Enter headline">
+            <input type="text"  class="input" [(ngModel)]="description" placeholder="Enter short description">
+            <input type="text"  class="input" [(ngModel)]="text" placeholder="Enter text">
+            <input type="text"  class="input" [(ngModel)]="imgsrc" placeholder="Enter image source">
+            <button class="backButton" (click)="save()">save</button>
+        </div>
+        <h1>News by user: {{adminName}}</h1>
+
+        <div fxFlex="100" fxLayout="row">
+        </div>
+        <ul class="articles" style="padding-left: 50px;">
+            <li *ngFor="let article of adminArticles" [class.selected]="article === selectedArticle" (click)="onSelect(article)">
+                <div style="text-align: center">
+                    <div fxLayout="row" style="text-align: center;">
+                        <img class="articlePoster" height="400px" width="500px" style="display:block; margin:auto;"
+                            src="{{article.img}}" alt="thumbnail">
+                    </div>
+                    <div style="display: inline-block; margin:auto">
+                        <span class="title" fxLayout="row">{{article.naslov}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="selectedArticle" fxLayout="column">
+        <button class="backButton" (click)="backButton()">back</button>
+        <button *ngIf="isLoggedIn" class="backButton" (click)="editButton()">edit</button>
+        <button *ngIf="isLoggedIn" class="backButton" (click)="deleteButton()">delete</button>
+        <div *ngIf="showEditForm">
+            <input type="text"  class="input" [(ngModel)]="selectedArticle.naslov" placeholder="Enter headline">
+            <input type="text"  class="input" [(ngModel)]="selectedArticle.podnaslov" placeholder="Enter short description">
+            <input type="text"  class="input" [(ngModel)]="selectedArticle.tekst" placeholder="Enter text">
+            <input type="text"  class="input" [(ngModel)]="selectedArticle.img" placeholder="Enter image source">
+            <button class="backButton" (click)="saveEdit()">save</button>
+
+        </div>
+        <img height="700px" width="1200px" src="{{selectedArticle.img}}"
+            alt="thumbnail">
+        <h2>{{selectedArticle.naslov}}</h2>
+        <p>{{selectedArticle.tekst}}</p>        
+    </div>
+</div>
